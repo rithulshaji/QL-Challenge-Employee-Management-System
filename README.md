@@ -150,7 +150,68 @@ WITH ranked_details AS (
 )
 SELECT * FROM ranked_details WHERE d_rnk <= 2;
 ```
+## -- Analyse 3 tables (Customer sales ,store and product data) and write a nested query to find out the name of the most popular item in each of the 2 cities:
+
+ ```sql
+ CREATE TABLE Customer_sales (
+    CustomerName VARCHAR(255),
+    ItemCode VARCHAR(255),
+    StoreID INT
+);
+
+INSERT INTO Customer_sales (CustomerName, ItemCode, StoreID) VALUES 
+('Ajay', 'XG105', 1235),
+('Ajay', 'XG102', 1235),
+('Ajay', 'XG103', 1235),
+('Shanu', 'XG103', 8866),
+('Nitin', 'XG101', 1235),
+('Abhishek', 'XG101', 8866),
+('Abhishek', 'XG103', 8866),
+('Luv', 'XG103', 2113),
+('Akhil', 'XG104', 2113),
+('Akhil', 'XG105', 2113),
+('Rohit', 'XG103', 8866),
+('Rohit', 'XG101', 8866),
+('Naveen', 'XG102', 2113),
+('Naveen', 'XG103', 2113);
+
+```
+
+ ```sql
+CREATE TABLE Store (
+    StoreID INT,
+    StoreLocation VARCHAR(255)
+);
+
+INSERT INTO Store (StoreID, StoreLocation) VALUES 
+(1235, 'Delhi'),
+(8866, 'Bangalore'),
+(2113, 'Chennai');
+```
+
+ ```sql
+CREATE TABLE Product_data (
+    ItemCode VARCHAR(255),
+    ItemName VARCHAR(255)
+);
+
+INSERT INTO Product_data (ItemCode, ItemName) VALUES 
+('XG101', 'Blue Berry Cake'),
+('XG102', 'Blackforest Cake'),
+('XG103', 'Apple Pie'),
+('XG104', 'Truffle'),
+('XG105', 'Lemon Pie');
+```
+
+### Query
+ ```sql
+WITH cte AS(
+SELECT S.StoreLocation,P.ItemName,COUNT(*) AS Product_cnt,
+DENSE_RANK()OVER(PARTITION BY S.StoreLocation ORDER BY COUNT(*) DESC) AS d_rnk
+FROM Customer_sales C INNER JOIN Store S ON C.StoreID=S.StoreID
+INNER JOIN Product_data P ON C.ItemCode=P.ItemCode
+GROUP BY S.StoreLocation,P.ItemName)
+SELECT StoreLocation,ItemName,Product_cnt,d_rnk FROM cte WHERE d_rnk=1;
+```
 
 ### By Rithul Shaji
-
-
