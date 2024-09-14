@@ -7,7 +7,6 @@ This repository contains SQL scripts for managing employee details, departments,
   - [Employee_Details Table](#employee_details-table)
   - [Departments Table](#departments-table)
   - [Department_Employee Table](#department_employee-table)
-- [Data Insertion](#data-insertion)
 - [SQL Queries](#sql-queries)
   - [a. Find total number of employees](#a-find-total-number-of-employees)
   - [b. Find total number of employees in every department](#b-find-total-number-of-employees-in-every-department)
@@ -150,7 +149,7 @@ WITH ranked_details AS (
 )
 SELECT * FROM ranked_details WHERE d_rnk <= 2;
 ```
-## -- Analyse 3 tables (Customer sales ,store and product data) and write a nested query to find out the name of the most popular item in each of the 2 cities:
+## Analyse 3 tables (Customer sales ,store and product data) and write a nested query to find out the name of the most popular item in each of the 2 cities:
 
  ```sql
  CREATE TABLE Customer_sales (
